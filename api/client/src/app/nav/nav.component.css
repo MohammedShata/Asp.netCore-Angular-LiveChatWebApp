@@ -1,0 +1,13 @@
+.dropdown-toggle,.dropdown-item{
+    cursor: pointer;
+}
+
+.blocktext {
+    margin-left: auto;
+    margin-right: auto;
+}
+img {
+    max-height: 50px;
+    border: 2px solid #fff;
+    display: inline;
+}
