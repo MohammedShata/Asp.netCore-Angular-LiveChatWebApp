@@ -16,6 +16,7 @@ namespace api.Dto
          public byte[] PasswordSalt {get;set;}
          public DateTime DateOfBirth {get;set;}
          public DateTime LastActive {get;set;}
+           public DateTime Created {get;set;}
          public string Gender {get;set;}
          public string Introduction {get;set;}
          public string LookingFor {get;set;}
