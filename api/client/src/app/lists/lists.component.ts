@@ -17,6 +17,7 @@ pagination:Pagination;
   constructor(private memberServices:MembersService) { }
 
   ngOnInit(): void {
+    this.loadLikes();
   }
   loadLikes(){
     this.memberServices.getLikes(this.predicate,this.pageNumber,
@@ -29,7 +30,8 @@ pagination:Pagination;
   pageChanged(event:any)
   {
     this.pageNumber=event.page;
-    console.log(this.pageNumber);    this.loadLikes();
+    console.log(this.pageNumber);   
+     this.loadLikes();
   }
 
 }
