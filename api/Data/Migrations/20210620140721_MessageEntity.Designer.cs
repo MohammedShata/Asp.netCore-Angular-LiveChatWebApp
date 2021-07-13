@@ -9,8 +9,8 @@ using api.Data;
 namespace api.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210614182006_MessageEntityAdded")]
-    partial class MessageEntityAdded
+    [Migration("20210620140721_MessageEntity")]
+    partial class MessageEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,7 +107,7 @@ namespace api.Data.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Message");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("api.Entites.Photo", b =>

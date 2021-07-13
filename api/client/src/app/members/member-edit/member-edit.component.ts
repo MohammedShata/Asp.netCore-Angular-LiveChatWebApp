@@ -31,10 +31,11 @@ if(this.editform.dirty)
   this.loadMember();
   }
 loadMember(){
-  this.memberServices.getMember(this.user.username).subscribe(member=>{
+  this.memberServices.getMember(this.user.userName).subscribe(member=>{
     this.member=member;
   })
 }
+
 UpdateMember(){
 this.memberServices.updateMember(this.member).subscribe(()=>{
   this.toast.success('Profile Updated Successfully');

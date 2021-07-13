@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace api.Data.Migrations
 {
-    public partial class MessageEntityAdded : Migration
+    public partial class MessageEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Message",
+             migrationBuilder.CreateTable(
+                name: "Messages",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -25,15 +25,15 @@ namespace api.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Message", x => x.id);
+                    table.PrimaryKey("PK_Messages", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Message_Users_RecipientId",
+                        name: "FK_Messages_Users_RecipientId",
                         column: x => x.RecipientId,
                         principalTable: "Users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Message_Users_SenderId",
+                        name: "FK_Messages_Users_SenderId",
                         column: x => x.SenderId,
                         principalTable: "Users",
                         principalColumn: "id",
@@ -41,20 +41,20 @@ namespace api.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message_RecipientId",
-                table: "Message",
+                name: "IX_Messages_RecipientId",
+                table: "Messages",
                 column: "RecipientId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Message_SenderId",
-                table: "Message",
+                name: "IX_Messages_SenderId",
+                table: "Messages",
                 column: "SenderId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Message");
+                name: "Messages");
         }
     }
 }

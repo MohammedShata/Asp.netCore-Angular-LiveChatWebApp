@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using api.Dto;
 using api.Entites;
 using api.Extensions;
+using api.Helpers;
 using api.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers
 {
-    [Authorize]
+    
     public class MessagesController : BaseApiController
     {
         
@@ -43,10 +45,28 @@ namespace api.Controllers
                 Content=createMessageDto.Content
             };
             _MessageReposirtory.AddMessage(message);
-            if(await _MessageReposirtory.saveAllAsync()) return Ok(_Mapper.Map<MessageDto>(message));
+            if(await _MessageReposirtory.SaveAllAsync()) return Ok(_Mapper.Map<MessageDto>(message));
 
             return BadRequest("Failed to send message");
         }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForUser([FromQuery]
+        MessageParams messsageParams)
+        {
+            messsageParams.Username=User.GetUsername();
+            var messages=await _MessageReposirtory.GetMessageForUser(messsageParams);
+
+            Response.AddPaginationHeader(messages.CurrentPage,messages.PageSize,messages.TotalCount,messages.TotalPages);
+
+            return messages;
+        }
+[HttpGet("thread/{username}")]
+public async Task<ActionResult<IEnumerable<MessageDto>>>GetMessageThread(string username)
+{
+    var currentUsername=User.GetUsername();
+
+    return Ok(await _MessageReposirtory.GetMessageThread(currentUsername,username));
+}
 
         
     }

@@ -18,7 +18,6 @@ model : any={}
 login()
 {
 this.Accountservices.login(this.model).subscribe(response=>{
-  console.log(response);
   this.router.navigateByUrl('/members');
 });
 }
