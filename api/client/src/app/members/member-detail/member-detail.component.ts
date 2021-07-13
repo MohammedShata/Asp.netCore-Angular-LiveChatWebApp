@@ -55,13 +55,7 @@ getImages():NgxGalleryImage[]{
   }
   return imageUrl;
 }
-  // loadMember(){
-  //   this.memberServices.getMember(this.route.snapshot.paramMap.get('username')).subscribe(member=>{
-  //     console.log(member);
-  //     this.member=member;
-      
-  //   })
-  // }
+
   loadMessages(){
     this.messageServices.getMessageThread(this.member.userName).
     subscribe(messages=>{

@@ -1,4 +1,4 @@
-<div style="width:800px; margin:0 auto;">
+<div style="width: 800px; margin:0px auto;">
 <div class="row mb-4">
     <div class="btn-group" name='container'>
         <button class="btn btn-primary" btnRadio='Unread' [(ngModel)]="container"
@@ -13,10 +13,12 @@
 (click)="loadMessages()">
 <i class="fa fa-paper-plane"></i>Outbox
 </button>
-    </div>
+</div>
+<br>
 <div class="row" *ngIf="messages?.length===0">
     <h3>No messages</h3>
 </div>
+<br>
     <div class="row" *ngIf="messages?.length>0">
         <table class="table table-hover" style="cursor: pointer;">
         <tr>
@@ -28,8 +30,8 @@
         <tr [hidden]="loading" *ngFor="let message of messages"
         routerLink='{{container==="Outbox"
         ?"/members/"+message.recipientUsername
-    :"/members/"+message.senderUsername}}'
-    [queryParams]='{tabs:3}'>
+        :"/members/"+message.senderUsername}}'
+        [queryParams]='{tabs:3}'>
     <td>{{message.content}}</td>
     <td>
     <div *ngIf="container === 'Outbox'">

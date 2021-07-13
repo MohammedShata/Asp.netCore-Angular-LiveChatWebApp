@@ -1,6 +1,14 @@
 
 .img-circle
 {
-    max-height: 50px;
+    max-height: 20px;
 
+}
+button
+{
+    max-height: 35px;
+}
+.blocktext {
+    margin-left: auto;
+    margin-right: auto;
 }
