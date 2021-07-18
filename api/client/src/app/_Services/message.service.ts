@@ -35,4 +35,8 @@ export class MessagesService implements OnInit {
     return this.http.post<Message>(this.baseUrl+'messages',{RecipientUsername:username,content});
 
   }
+  deleteMessage(id:number)
+  {
+    return this.http.delete(this.baseUrl+ 'messages/'+id);
+  }
 }

@@ -37,11 +37,11 @@ namespace api.Controllers
         {
             if (await UserExist(registerDto.Username)) return BadRequest("User Is Taken");
             var user= _mapper.Map<AppUser>(registerDto);
-            using var hmac = new HMACSHA512();
+            // using var hmac = new HMACSHA512();
            
               user.UserName = registerDto.Username.ToLower();
-              user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
-              user.PasswordSalt = hmac.Key;
+            //   user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
+            //   user.PasswordSalt = hmac.Key;
         
             _Context.Add(user);
             await _Context.SaveChangesAsync();
@@ -63,13 +63,13 @@ namespace api.Controllers
 
             var user = await _Context.Users.Include(p=>p.Photos).SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
             if (user == null) return Unauthorized("invalid User !");
-            using var hmac = new HMACSHA512(user.PasswordSalt);
-            Console.WriteLine(loginDto.Password);
-            var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
-            for (int i = 0; i < ComputeHash.Length; i++)
-            {
-                if (ComputeHash[i] != user.PasswordHash[i]) return Unauthorized("invalid password");
-            }
+            // // using var hmac = new HMACSHA512(user.PasswordSalt);
+            // Console.WriteLine(loginDto.Password);
+            // var ComputeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+            // for (int i = 0; i < ComputeHash.Length; i++)
+            // {
+            //     if (ComputeHash[i] != user.PasswordHash[i]) return Unauthorized("invalid password");
+            // }
             return new UserDto{
                 Username=user.UserName,
                 token=_tokenServices.CreateToken(user),

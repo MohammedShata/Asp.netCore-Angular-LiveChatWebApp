@@ -67,7 +67,25 @@ public async Task<ActionResult<IEnumerable<MessageDto>>>GetMessageThread(string 
 
     return Ok(await _MessageReposirtory.GetMessageThread(currentUsername,username));
 }
+[HttpDelete("{id}")]
+public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(int id)
+{
+    var username=User.GetUsername();
+    var message= await _MessageReposirtory.GetMessage(id);
+    if(message.Sender.UserName !=username &&
+     message.Recipient.UserName != username)
+     return Unauthorized();
 
+     if(message.Sender.UserName==username) message.SenderDeleted=true;
+     if(message.Recipient.UserName==username) message.RecipientDeleted=true;
+     if(message.RecipientDeleted && message.SenderDeleted)
+     _MessageReposirtory.deleteMessage(message);
+
+     if(await _MessageReposirtory.SaveAllAsync())return Ok();
+     return BadRequest("Problem deleting the message");
+
+}
         
-    }
+    
+}
 }

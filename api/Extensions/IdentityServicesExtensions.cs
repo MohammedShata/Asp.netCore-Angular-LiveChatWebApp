@@ -17,6 +17,9 @@ using api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using api.Entites;
+using Microsoft.AspNetCore.Identity;
+
 namespace api.Extensions
 {
     public  static class IdentityServicesExtensions
@@ -25,6 +28,16 @@ namespace api.Extensions
             this IServiceCollection services,IConfiguration Config)
         
         {
+            services.AddIdentityCore<AppUser>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric=false;
+            })
+            .AddRoles<AppRole>()
+            .AddRoleManager<RoleManager<AppRole>>()
+            .AddSignInManager<SignInManager<AppUser>>()
+            .AddRoleValidator<RoleValidator<AppRole>>()
+            .AddEntityFrameworkStores<DataContext>();
+            
               services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>{
                 options.TokenValidationParameters=new 
