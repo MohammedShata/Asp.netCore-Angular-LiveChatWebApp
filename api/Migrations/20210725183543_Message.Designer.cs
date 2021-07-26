@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
-namespace api.Data.Migrations
+namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210715132032_identity")]
-    partial class identity
+    [Migration("20210725183543_Message")]
+    partial class Message
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -241,7 +241,7 @@ namespace api.Data.Migrations
 
             modelBuilder.Entity("api.Entites.Message", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -272,7 +272,7 @@ namespace api.Data.Migrations
                     b.Property<string>("SenderUsername")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("RecipientId");
 

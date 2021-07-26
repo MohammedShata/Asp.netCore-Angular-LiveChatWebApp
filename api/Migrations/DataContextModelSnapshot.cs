@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
-namespace api.Data.Migrations
+namespace api.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -239,7 +239,7 @@ namespace api.Data.Migrations
 
             modelBuilder.Entity("api.Entites.Message", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -270,7 +270,7 @@ namespace api.Data.Migrations
                     b.Property<string>("SenderUsername")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("RecipientId");
 

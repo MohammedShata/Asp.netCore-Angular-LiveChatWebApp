@@ -33,21 +33,29 @@ namespace api.Controllers
             _userRepository = userRepository;
 
         }
+        // [Authorize(Roles ="Admin")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
+        public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers
+        ([FromQuery]UserParams userParams)
         {
             var user=await _userRepository.GetUserByUsernameAsync(User.GetUsername());
             userParams.CurrentUsername=user.UserName;
             if(string.IsNullOrEmpty(userParams.Gender))
             {
-                userParams.Gender=user.Gender == "male" ? "female" :"male"; 
+                if(userParams.Gender==user.Gender)
+                 userParams.Gender= "male";
+                 else{
+                     userParams.Gender="female";
+                 }
             }
+            
             var users = await _userRepository.GetMembersAsync(userParams);
             Response.AddPaginationHeader(users.CurrentPage,users.PageSize,users.TotalCount,users.TotalPages);
             return Ok(users);
-        }
-        [HttpGet("{username}",Name="getUser")]
-        public async Task<ActionResult<MemberDto>> getUser(string username)
+            }
+        // [Authorize(Roles ="Member")]
+        [HttpGet("{username}",Name="GetUser")]
+        public async Task<ActionResult<MemberDto>> GetUser(string username)
         {
             return await _userRepository.GetMemberAsync(username);
 

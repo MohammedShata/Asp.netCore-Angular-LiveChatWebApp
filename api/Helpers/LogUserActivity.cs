@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using api.Extensions;
 using api.Interfaces;
-using api.Data.Migrations;
+
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System;
