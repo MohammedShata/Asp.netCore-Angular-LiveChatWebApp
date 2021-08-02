@@ -41,7 +41,7 @@ namespace api.Controllers
         {
             return Ok("Admins or moderators can see this");
         }
-        [HttpPost("edit-roles/{username}")]
+        [HttpPost("edit-roles/{userName}")]
         public async Task<ActionResult> EditRoles(string username,[FromQuery]string roles)
         {
             var selectedRoles= roles.Split(",").ToArray();
