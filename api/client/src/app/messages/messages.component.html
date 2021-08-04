@@ -7,9 +7,12 @@
     </button>
     <button class="btn btn-primary" btnRadio='inbox' [(ngModel)]="container"
     (click)="loadMessages()">
-    <i class="fa fa-envelope-open"></i>inbox
+    <i class="fa fa-envelope-open">
+
+    </i>inbox
 </button>
-<button class="btn btn-primary" btnRadio='Outbox' [(ngModel)]="container"
+<button class="btn btn-primary"
+ btnRadio='Outbox' [(ngModel)]="container"
 (click)="loadMessages()">
 <i class="fa fa-paper-plane"></i>Outbox
 </button>
