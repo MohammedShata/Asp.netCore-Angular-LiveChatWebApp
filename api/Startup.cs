@@ -37,6 +37,15 @@ private readonly IConfiguration _config;
             services.AddApplicationServices(_config);
             services.AddControllers();
             services.AddCors();
+            services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder => builder.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .SetIsOriginAllowed((host) => true));
+});
+
             services.AddIdentityServices(_config);
             services.AddSignalR();
           
@@ -52,6 +61,7 @@ private readonly IConfiguration _config;
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseHttpsRedirection();
              app.UseRouting();
+             
             app.UseCors(x=>x
             .AllowAnyHeader()
             .AllowAnyMethod()
@@ -63,6 +73,7 @@ private readonly IConfiguration _config;
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }

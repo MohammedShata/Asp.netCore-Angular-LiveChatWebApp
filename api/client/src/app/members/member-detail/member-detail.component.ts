@@ -1,27 +1,39 @@
-import { ViewChild } from '@angular/core';
+import { OnDestroy, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
+import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_Models/message';
+import { User } from 'src/app/_Models/user';
+import { AccountService } from 'src/app/_Services/account.service';
 import { MembersService } from 'src/app/_Services/members.service';
 import { MessagesService } from 'src/app/_Services/message.service';
+import { PresenceService } from 'src/app/_Services/presence.service';
 
 @Component({
   selector: 'app-member-detail',
   templateUrl: './member-detail.component.html',
   styleUrls: ['./member-detail.component.css']
 })
-export class MemberDetailComponent implements OnInit {
+export class MemberDetailComponent implements OnInit,OnDestroy {
   @ViewChild('memberTabs',{static:true}) memberTabs:TabsetComponent;
 member:Member;
 galleryOptions: NgxGalleryOptions[];
 galleryImages:NgxGalleryImage[];
 activeTap:TabDirective;
 messages:Message[]=[];
-  constructor(private memberServices:MembersService,private route:ActivatedRoute,
-    private messageServices:MessagesService) { }
+user:User;
+ngOnDestroy():void{
+this.messageServices.stopHubConnection();
+}
+  constructor(public presence:PresenceService,private route:ActivatedRoute,
+    private messageServices:MessagesService,private accountServices:AccountService,
+    private router:Router) {
+      this.accountServices.CurrentUser$.pipe(take(1)).subscribe(user => this.user=user);
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+     }
 
   ngOnInit(): void {
   this.route.data.subscribe(data=>{
@@ -29,7 +41,7 @@ messages:Message[]=[];
   })
 
   this.route.queryParams.subscribe(params=>{
-   params.tab ? this.onSelectedTab(params.tab) : this.onSelectedTab(0)
+   params.tab ? this.onSelectedTab(params.tab) : this.onSelectedTab(0);
   }
   )
 
@@ -70,7 +82,10 @@ getImages():NgxGalleryImage[]{
     this.activeTap=data;
     if(this.activeTap.heading==='Messages'&& this.messages.length===0)
     {
-this.loadMessages();
+          this.messageServices.createHubConnection(this.user,this.member.userName)
+    }
+    else{
+      this.messageServices.stopHubConnection();
     }
     
   }
